@@ -1,15 +1,21 @@
 <?php
 
+use App\Http\Controllers\AdminController; // Add this line
+use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Settings;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::get('books', [BookController::class, 'index'])->name('books.index'); // Added this line
+
+// Admin Routes - Grouped and protected by 'auth' and role middleware
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/librarians/create', [AdminController::class, 'createLibrarian'])->name('admin.librarian.create');
+    Route::post('/librarians', [AdminController::class, 'storeLibrarian'])->name('admin.librarian.store');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

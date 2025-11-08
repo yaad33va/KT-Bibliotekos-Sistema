@@ -9,53 +9,35 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-        // User::factory(10)->create();
-        // Seed roles and permissions first
-        $this->call(RolePermissionSeeder::class);
 
-        // Create test users with different roles
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@library.com'],
-            [
-                'name' => 'Admin User',
-                'password' => bcrypt('password'),
-                'email_verified_at' => now(),
-            ]
-        );
-        $admin->syncRoles(['administrator']);
+    Seed the application's database.*/
+    public function run(): void{$this->call(RolePermissionSeeder::class);
 
-        $librarian = User::firstOrCreate(
-            ['email' => 'librarian@library.com'],
-            [
-                'name' => 'Librarian User',
-                'password' => bcrypt('password'),
-                'email_verified_at' => now(),
-            ]
-        );
-        $librarian->syncRoles(['librarian']);
+        $user = User::factory()->create([
+            'name' => 'Test user',
+            'surname' => 'Example',
+            'email' => 'user@library.com',
+            'password' => bcrypt('password'), // password
+        ]);
 
-        $registered = User::firstOrCreate(
-            ['email' => 'registered@library.com'],
-            [
-                'name' => 'Registered User',
-                'password' => bcrypt('password'),
-                'email_verified_at' => now(),
-            ]
-        );
-        $registered->syncRoles(['registered']);
+        $user->assignRole('user');
 
-        // Original test user
-        User::firstOrCreate(
-            ['email' => 'test@example.com'],
-            [
-                'name' => 'Test User',
-                'password' => bcrypt('password'),
-                'email_verified_at' => now(),
-            ]
-        );
+        $admin = User::factory()->create([
+            'name' => 'Admin user',
+            'surname' => 'Example',
+            'email' => 'admin@library.com',
+            'password' => bcrypt('password'), // password
+        ]);
+
+        $admin->assignRole('admin');
+
+        $librarian = User::factory()->create([
+            'name' => 'Librarian user',
+            'surname' => 'Example',
+            'email' => 'librarian@library.com',
+            'password' => bcrypt('password'), // password
+        ]);
+
+        $librarian->assignRole('librarian');
     }
 }

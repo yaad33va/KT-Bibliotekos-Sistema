@@ -1,46 +1,52 @@
-<x-layouts.auth :title="__('Log in')">
-<div class="space-y-6">
-    <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+@extends('layouts.app')
 
-    <!-- Session Status -->
-    <x-auth-session-status class="text-center" :status="session('status')" />
+@section('title', 'Prisijungti')
 
-    <x-form method="post" :action="route('login')" class="space-y-6">
-        <x-input
-            type="email"
-            :label="__('Email address')"
-            name="email"
-            required
-            autofocus
-            autocomplete="email"
-        />
+@section('content')
+    <div class="card" style="max-width: 500px; margin: 2rem auto;">
+        <h2 style="text-align: center; margin-bottom: 1.5rem;">Prisijungti prie Paskyros</h2>
 
-        <div class="relative">
-            <x-input
-                type="password"
-                :label="__('Password')"
-                name="password"
-                required
-                autocomplete="current-password"
-            />
+        <!-- Session Status -->
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+
+            <!-- Email Address -->
+            <div class="form-group">
+                <label for="email">El. paštas</label>
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="email">
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Slaptažodis</label>
+                <input id="password" type="password" name="password" required autocomplete="current-password">
+            </div>
+
+            <!-- Remember Me -->
+            <div class="form-group" style="display: flex; align-items: center;">
+                <input id="remember_me" type="checkbox" name="remember" style="width: auto; margin-right: 0.5rem;">
+                <label for="remember_me" style="margin: 0;">Prisiminti mane</label>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                <a href="{{ route('register') }}" class="btn-link">Neturite paskyros? Registruokitės</a>
+                <button type="submit" class="btn btn-primary">Prisijungti</button>
+            </div>
 
             @if (Route::has('password.request'))
-                <x-link class="absolute right-0 top-0 text-sm" :href="route('password.request')">
-                    {{ __('Forgot your password?') }}
-                </x-link>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <a class="btn-link" href="{{ route('password.request') }}">
+                        Pamiršote slaptažodį?
+                    </a>
+                </div>
             @endif
-        </div>
-
-        <x-checkbox name="remember" :label="__('Remember me')" />
-
-        <x-button class="w-full">{{ __('Log in') }}</x-button>
-    </x-form>
-
-    @if (Route::has('register'))
-      <p class="text-center text-sm text-gray-600 dark:text-gray-400">
-          <span>{{ __('Don\'t have an account?') }}</span>
-          <x-link :href="route('register')">Sign up</x-link>
-      </p>
-    @endif
-</div>
-</x-layouts.auth>
+        </form>
+    </div>
+    <style>.btn-link { color: #667eea; text-decoration: none; } .btn-link:hover { text-decoration: underline; }</style>
+@endsection

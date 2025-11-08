@@ -1,18 +1,24 @@
 @extends('layouts.app')
 
-@section('title', 'Registracija')
+@section('title', 'Sukurti Bibliotekininką')
 
 @section('content')
-    <div class="card" style="max-width: 500px; margin: 2rem auto;">
-        <h2 style="text-align: center; margin-bottom: 1.5rem;">Sukurti Paskyrą</h2>
+    <div class="card" style="max-width: 600px; margin: 2rem auto;">
+        <h2 style="text-align: center; margin-bottom: 1.5rem;">Naujo Bibliotekininko Informacija</h2>
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('admin.librarian.store') }}">
             @csrf
 
             <!-- Name -->
             <div class="form-group">
                 <label for="name">Vardas</label>
                 <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name">
+            </div>
+
+            <!-- Name -->
+            <div class="form-group">
+                <label for="name">Pavardė</label>
+                <input id="surname" type="text" name="surname" value="{{ old('surname') }}" required autofocus autocomplete="surname">
             </div>
 
             <!-- Email Address -->
@@ -33,11 +39,10 @@
                 <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password">
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
-                <a href="{{ route('login') }}" class="btn-link">Jau turite paskyrą? Prisijunkite</a>
-                <button type="submit" class="btn btn-primary">Registruotis</button>
+            <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 1.5rem;">
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary" style="margin-right: 1rem;">Atšaukti</a>
+                <button type="submit" class="btn btn-primary">Sukurti</button>
             </div>
         </form>
     </div>
-    <style>.btn-link { color: #667eea; text-decoration: none; } .btn-link:hover { text-decoration: underline; }</style>
 @endsection
