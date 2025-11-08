@@ -21,7 +21,10 @@ class DatabaseSeeder extends Seeder
         $admin = User::firstOrCreate(
             ['email' => 'admin@library.com'],
             [
-                'name' => 'Admin User',
+                'name' => 'Admin',
+                'surname' => 'User',
+                'username' => 'admin',
+                'role' => 'administrator',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
             ]
@@ -31,7 +34,10 @@ class DatabaseSeeder extends Seeder
         $librarian = User::firstOrCreate(
             ['email' => 'librarian@library.com'],
             [
-                'name' => 'Librarian User',
+                'name' => 'Librarian',
+                'surname' => 'User',
+                'username' => 'librarian',
+                'role' => 'librarian',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
             ]
@@ -41,7 +47,10 @@ class DatabaseSeeder extends Seeder
         $registered = User::firstOrCreate(
             ['email' => 'registered@library.com'],
             [
-                'name' => 'Registered User',
+                'name' => 'Registered',
+                'surname' => 'User',
+                'username' => 'registered',
+                'role' => 'registered',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
             ]
@@ -52,7 +61,10 @@ class DatabaseSeeder extends Seeder
         User::firstOrCreate(
             ['email' => 'test@example.com'],
             [
-                'name' => 'Test User',
+                'name' => 'Test',
+                'surname' => 'User',
+                'username' => 'testuser',
+                'role' => 'registered',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
             ]

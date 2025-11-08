@@ -3,79 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use App\Models\Reservation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class BookController extends Controller
 {
-    // Public: view all books
-    public function index()
+    public function index(Request $request): View
     {
-        $books = Book::orderBy('title')->paginate(20);
-        return view('books.index', compact('books'));
+        $perPage = $request->get('per_page', 12);
+        $search = $request->get('search', '');
+
+        $query = Book::query();
+
+        if ($search) {
+            $query->where('title', 'like', "%{$search}%")
+                ->orWhere('author', 'like', "%{$search}%")
+                ->orWhere('genre', 'like', "%{$search}%");
+        }
+
+        $books = $query->paginate($perPage);
+
+        return view('books.index', compact('books', 'search'));
     }
 
-    // Public: view only currently unborrowed books (available)
-    public function available()
+    public function available(Request $request): View
     {
-        // compute available copies as copies - active reservations
-        $books = Book::withCount(['reservations as active_reservations_count' => function ($q) {
-            $q->whereNull('returned_at');
-        }])->get()->map(function ($book) {
-            $book->available = max(0, $book->copies - $book->active_reservations_count);
-            return $book;
-        });
+        $perPage = $request->get('per_page', 12);
+        $search = $request->get('search', '');
+        $genre = $request->get('genre', '');
 
-        return view('books.available', compact('books'));
-    }
+        $query = Book::query();
 
-    // Librarian: show create form
-    public function create()
-    {
-        $this->authorize('librarian-action'); // optional - alternatively use middleware
-        return view('books.create');
-    }
+        if ($search) {
+            $query->where('title', 'like', "%{$search}%")
+                ->orWhere('author', 'like', "%{$search}%");
+        }
 
-    // Librarian: store new book
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'nullable|string|max:255',
-            'copies' => 'required|integer|min:0',
-        ]);
+        if ($genre) {
+            $query->where('genre', $genre);
+        }
 
-        Book::create($request->only(['title', 'author', 'copies']));
+        $books = $query->paginate($perPage);
 
-        return redirect()->route('books.index')->with('success', 'Book added.');
-    }
+        // Filter books with available copies
+        $availableBooks = $books->getCollection()->filter(function ($book) {
+            return $book->available_copies > 0;
+        })->values();
 
-    // Librarian: edit book (including copies)
-    public function edit(Book $book)
-    {
-        $this->authorize('librarian-action');
-        return view('books.edit', compact('book'));
-    }
+        $genres = Book::distinct()->pluck('genre')->sort();
 
-    public function update(Request $request, Book $book)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'nullable|string|max:255',
-            'copies' => 'required|integer|min:0',
-        ]);
-
-        $book->update($request->only(['title', 'author', 'copies']));
-
-        return redirect()->route('books.index')->with('success', 'Book updated.');
-    }
-
-    // Show single book
-    public function show(Book $book)
-    {
-        $activeReservations = $book->reservations()->whereNull('returned_at')->with('user')->get();
-        $available = max(0, $book->copies - $activeReservations->count());
-        return view('books.show', compact('book', 'available', 'activeReservations'));
+        return view('books.available', compact('books', 'availableBooks', 'search', 'genre', 'genres'));
     }
 }
