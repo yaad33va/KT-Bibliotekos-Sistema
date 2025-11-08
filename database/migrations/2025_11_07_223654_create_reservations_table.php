@@ -14,9 +14,10 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamp('reservation_date');
             $table->timestamp('return_date');   //grazinti_iki - iki kurios dienos grazinti
-            $table->timestamp('returned_at');   //grazinimo_data - kada grazino
+            $table->timestamp('returned_at')->nullable();   //grazinimo_data - kada grazino
             $table->enum('book_status', array_column(BookStatus::cases(), column_key: 'value'));
             $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
         });

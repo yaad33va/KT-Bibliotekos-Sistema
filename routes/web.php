@@ -42,16 +42,18 @@ Route::middleware(['auth'])->group(function () {
 
 // --- Protected Routes for Staff ---
 // Only Librarians and Admins can access these routes.
-Route::middleware(['auth', 'role:admin|librarian'])->group(function () {
+Route::middleware(['auth', 'role:librarian'])->group(function () {
     // This handles the PROTECTED parts: create, store, edit, update, destroy.
     // This is the line that makes the `/books/create` route exist for staff.
     Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
     Route::resource('books', BookController::class)->except(['index', 'show']);
 
     // Routes for managing reservations.
-    Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
-    Route::put('/reservations/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
 
+    Route::get('/librarian/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+    Route::post('/librarian/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+    Route::get('/librarian/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
+    Route::patch('/librarian/reservations/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
 
     // Route for the librarian dashboard.
     Route::get('/librarian/dashboard', [LibrarianController::class, 'dashboard'])->name('librarian.dashboard');

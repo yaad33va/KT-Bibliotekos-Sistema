@@ -5,7 +5,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
             <h2>Knygų Katalogas</h2>
             @auth
-                @if(auth()->user()->hasRole('librarian|admin'))
+                @if(auth()->user()->hasRole('librarian'))
                     <a href="{{ route('books.create') }}" class="btn btn-primary">Pridėti Naują Knygą</a>
                 @endif
             @endauth
@@ -24,7 +24,7 @@
                         <th>Laisvas Kiekis</th>
                         <th>Aprašymas</th>
                         @auth
-                            @if(auth()->user()->hasRole('librarian|admin'))
+                            @if(auth()->user()->hasRole('librarian'))
                                 <th>Veiksmai</th>
                             @endif
                         @endauth
@@ -40,7 +40,7 @@
                             <td>{{ $book->book_count }}</td>
                             <td>{{ $book->book_description }}</td>
                             @auth
-                                @if(auth()->user()->hasRole('librarian|admin'))
+                                @if(auth()->user()->hasRole('librarian'))
                                     <td style="display: flex; gap: 0.5rem;">
                                         <a href="{{ route('books.edit', $book) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">Redaguoti</a>
                                         <form action="{{ route('books.destroy', $book) }}" method="POST" onsubmit="return confirm('Ar tikrai norite ištrinti šią knygą?');">
