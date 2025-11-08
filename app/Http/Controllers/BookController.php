@@ -3,79 +3,72 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use App\Models\Reservation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class BookController extends Controller
 {
-    // Public: view all books
-    public function index()
+    public function index(): View
     {
-        $books = Book::orderBy('title')->paginate(20);
+        $books = Book::latest()->paginate(10);
         return view('books.index', compact('books'));
     }
 
-    // Public: view only currently unborrowed books (available)
-    public function available()
+    public function create(): View
     {
-        // compute available copies as copies - active reservations
-        $books = Book::withCount(['reservations as active_reservations_count' => function ($q) {
-            $q->whereNull('returned_at');
-        }])->get()->map(function ($book) {
-            $book->available = max(0, $book->copies - $book->active_reservations_count);
-            return $book;
-        });
-
-        return view('books.available', compact('books'));
-    }
-
-    // Librarian: show create form
-    public function create()
-    {
-        $this->authorize('librarian-action'); // optional - alternatively use middleware
         return view('books.create');
     }
 
-    // Librarian: store new book
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'author' => 'nullable|string|max:255',
-            'copies' => 'required|integer|min:0',
+            'author' => 'required|string|max:255',
+            'genre' => 'required|string|max:255',
+            'release_date' => 'required|date',
+            'book_description' => 'required|string|max:2000',
+            'page_count' => 'required|integer|min:1',
+            'book_count' => 'required|integer|min:0',
         ]);
 
-        Book::create($request->only(['title', 'author', 'copies']));
-
-        return redirect()->route('books.index')->with('success', 'Book added.');
+        Book::create($request->all());
+        return redirect()->route('books.index')->with('success', 'Knyga sėkmingai pridėta.');
     }
 
-    // Librarian: edit book (including copies)
-    public function edit(Book $book)
+    public function show(Book $book): View
     {
-        $this->authorize('librarian-action');
+        return view('books.show', compact('book'));
+    }
+
+    public function edit(Book $book): View
+    {
         return view('books.edit', compact('book'));
     }
 
-    public function update(Request $request, Book $book)
+    public function update(Request $request, Book $book): RedirectResponse
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'author' => 'nullable|string|max:255',
-            'copies' => 'required|integer|min:0',
+            'author' => 'required|string|max:255',
+            'genre' => 'required|string|max:255',
+            'release_date' => 'required|date',
+            'book_description' => 'required|string|max:2000',
+            'page_count' => 'required|integer|min:1',
+            'book_count' => 'required|integer|min:0',
         ]);
 
-        $book->update($request->only(['title', 'author', 'copies']));
-
-        return redirect()->route('books.index')->with('success', 'Book updated.');
+        $book->update($request->all());
+        return redirect()->route('books.index')->with('success', 'Knygos informacija atnaujinta.');
     }
 
-    // Show single book
-    public function show(Book $book)
+    public function destroy(Book $book): RedirectResponse
     {
-        $activeReservations = $book->reservations()->whereNull('returned_at')->with('user')->get();
-        $available = max(0, $book->copies - $activeReservations->count());
-        return view('books.show', compact('book', 'available', 'activeReservations'));
+        if ($book->reservations()->whereNull('returned_at')->exists()) {
+            return back()->withErrors(['error' => 'Negalima ištrinti knygos, kuri yra aktyviai rezervuota.']);
+        }
+
+        $book->delete();
+        return redirect()->route('books.index')->with('success', 'Knyga ištrinta.');
     }
 }

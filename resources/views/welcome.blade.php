@@ -59,7 +59,8 @@
                     @if(auth()->user()->hasRole('admin'))
                         <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-lg">Eiti į Admino Skydelį</a>
                     @elseif(auth()->user()->hasRole('librarian'))
-                        <a href="#" class="btn btn-primary btn-lg">Eiti į Skydelį</a>
+                        {{-- Corrected link --}}
+                        <a href="{{ route('librarian.dashboard') }}" class="btn btn-primary btn-lg">Eiti į Skydelį</a>
                     @else
                         <a href="{{ route('books.index') }}" class="btn btn-primary btn-lg">Peržiūrėti Knygas</a>
                     @endif

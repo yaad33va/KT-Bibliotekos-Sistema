@@ -18,6 +18,9 @@ class Book extends Model
         'page_count',
         'book_count',
     ];
+    protected $casts = [
+        'release_date' => 'date', // This is the line that fixes the error
+    ];
 
     public function reservations(): HasMany
     {

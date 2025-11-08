@@ -46,13 +46,13 @@
                     <a href="{{ route('admin.dashboard') }}">Admino Skydelis</a>
                     <a href="{{ route('books.index') }}">Knygų valdymas</a>
                 @elseif(auth()->user()->hasRole('librarian'))
-                    {{-- Placeholder for librarian links --}}
-                    <a href="#">Bibliotekininko Skydelis</a>
+                    {{-- Corrected link --}}
+                    <a href="{{ route('librarian.dashboard') }}">Bibliotekininko Skydelis</a>
                     <a href="{{ route('books.index') }}">Knygos</a>
                 @else
                     {{-- Regular user links --}}
                     <a href="{{ route('books.index') }}">Peržiūrėti knygas</a>
-                    {{-- <a href="{{ route('user.borrows') }}">Mano Paskolos</a> --}}
+                    {{-- <a href="{{ route('user.reservations') }}">Mano Rezervacijos</a> --}}
                 @endif
 
                 <form method="POST" action="{{ route('logout') }}" style="display: inline; margin-left: 1rem;">
