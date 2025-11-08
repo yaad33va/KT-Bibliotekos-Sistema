@@ -32,14 +32,14 @@
 
                 @auth
                     <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ auth()->user()->username }}</span>
-                    <x-link href="{{ route('dashboard') }}" class="text-sm px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-semibold">
+                    <x-link href="{{ route('dashboard') }}" class="text-sm px-4 py-2 bg-teal-600 text-gray-700 rounded-lg hover:bg-teal-700 font-semibold">
                         Dashboard
                     </x-link>
                 @else
-                    <x-link href="{{ route('login') }}" class="text-sm px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-medium">
+                    <x-link href="{{ route('login') }}" class="text-sm px-4 py-2 bg-teal-600 text-gray-700 rounded-lg hover:bg-teal-700 font-semibold">
                         Login
                     </x-link>
-                    <x-link href="{{ route('register') }}" class="text-sm px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-semibold">
+                    <x-link href="{{ route('register') }}" class="text-sm px-4 py-2 bg-teal-600 text-gray-700 rounded-lg hover:bg-teal-700 font-semibold">
                         Register
                     </x-link>
                 @endauth
@@ -77,9 +77,9 @@
                             <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">{{ $book->genre }}</td>
                             <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">{{ $book->page_count }}</td>
                             <td class="px-6 py-4 text-sm">
-                                            <span class="inline-block px-3 py-1 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 rounded-full font-semibold text-xs">
-                                                {{ $book->available_copies }}/{{ $book->book_count }}
-                                            </span>
+                                <span class="inline-block px-3 py-1 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 rounded-full font-semibold text-xs">
+                                    {{ $book->available_copies }}/{{ $book->book_count }}
+                                </span>
                             </td>
                             <td class="px-6 py-4 text-sm">
                                 @auth
@@ -132,9 +132,9 @@
                                     <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">{{ $reservation->book->author }}</td>
                                     <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">{{ $reservation->reservation_date->format('Y-m-d') }}</td>
                                     <td class="px-6 py-4 text-sm">
-                                                    <span class="inline-block px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-full font-semibold text-xs">
-                                                        {{ $reservation->return_date->format('Y-m-d') }}
-                                                    </span>
+                                        <span class="inline-block px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-full font-semibold text-xs">
+                                            {{ $reservation->return_date->format('Y-m-d') }}
+                                        </span>
                                     </td>
                                 </tr>
                             @empty
