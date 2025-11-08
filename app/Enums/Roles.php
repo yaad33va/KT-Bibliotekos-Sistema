@@ -6,7 +6,7 @@ enum Roles: string
 {
     case Administrator = 'administrator';
 
-    case RegisteredUser = 'registered-user';
+    case RegisteredUser = 'registered';
 
     case Librarian = 'librarian';
 }
