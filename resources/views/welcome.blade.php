@@ -62,7 +62,7 @@
                         {{-- Corrected link --}}
                         <a href="{{ route('librarian.dashboard') }}" class="btn btn-primary btn-lg">Eiti į Skydelį</a>
                     @else
-                        <a href="{{ route('books.index') }}" class="btn btn-primary btn-lg">Peržiūrėti Knygas</a>
+                        <a href="{{ route('books.index') }}" class="btn btn-primary btn-lg">Peržiūrėti knygas</a>
                     @endif
                 @else
                     <a href="{{ route('login') }}" class="btn btn-primary btn-lg">Prisijungti</a>
@@ -73,7 +73,7 @@
     </div>
 
     <div class="card">
-        <h2>Atraskite Mūsų Biblioteką</h2>
+        <h2>Atraskite mūsų biblioteką</h2>
         <p>Mūsų sistema sukurta tam, kad galėtumėte lengvai ir patogiai pasiekti didžiulę knygų kolekciją, skolintis ir atrasti naujus skaitinius.</p>
         <div class="grid" style="margin-top: 2rem;">
             <div class="card">

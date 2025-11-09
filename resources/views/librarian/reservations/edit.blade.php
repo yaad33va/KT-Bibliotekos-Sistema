@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Mark Book as Returned</div>
+                    <div class="card-header">Pažymėti knygą kaip grąžintą</div>
 
                     <div class="card-body">
                         <p><strong>Book Title:</strong> {{ $reservation->book->title }}</p>
@@ -17,11 +17,11 @@
                             @method('PATCH')
 
                             <div class="alert alert-warning" role="alert">
-                                Are you sure you want to mark this book as returned? This action cannot be undone.
+                                Ar tikrai norite pažymėti šią knygą kaip grąžintą?
                             </div>
 
-                            <button type="submit" class="btn btn-success">Confirm Return</button>
-                            <a href="{{ route('reservations.index') }}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-success">Patvirtinti grąžinimą</button>
+                            <a href="{{ route('reservations.index') }}" class="btn btn-secondary">Atšaukti</a>
                         </form>
                     </div>
                 </div>

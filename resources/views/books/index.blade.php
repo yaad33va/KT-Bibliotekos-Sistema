@@ -3,10 +3,10 @@
 @section('content')
     <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <h2>Knygų Katalogas</h2>
+            <h2>Knygų katalogas</h2>
             @auth
                 @if(auth()->user()->hasRole('librarian'))
-                    <a href="{{ route('books.create') }}" class="btn btn-primary">Pridėti Naują Knygą</a>
+                    <a href="{{ route('books.create') }}" class="btn btn-primary">Pridėti naują Knygą</a>
                 @endif
             @endauth
         </div>

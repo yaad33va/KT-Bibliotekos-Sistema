@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use App\Models\Book; // Add this
 use App\Models\User; // Add this
 use App\Enums\BookStatus;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request; // Add this
 use Illuminate\View\View;
@@ -55,7 +56,19 @@ class ReservationController extends Controller
 
         // Check if the book is available
         if ($book->book_count <= 0) {
-            return redirect()->back()->withErrors(['book_id' => 'This book is not available.'])->withInput();
+            return redirect()->back()->withErrors(['book_id' => 'Knyga negalima išdavimui'])->withInput();
+        }
+
+        $canMakeReservation = Reservation::where(function($query)use($request){
+            $query->where('user_id', $request->user()->id)->whereColumn('returned_at', '<', 'return_date')
+                ->orWhere(function($subquery){
+                    $subquery->whereNull('returned_at')
+                        ->where('return_date', '<', Carbon::today());
+                });
+        })->count();
+
+        if ($canMakeReservation > 0) {
+            return redirect()->back()->withErrors(['return_date' => 'Turite laiku negrąžintų knygų'])->withInput();
         }
 
         // Create the reservation

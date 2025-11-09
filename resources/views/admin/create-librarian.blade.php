@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="card" style="max-width: 600px; margin: 2rem auto;">
-        <h2 style="text-align: center; margin-bottom: 1.5rem;">Naujo Bibliotekininko Informacija</h2>
+        <h2 style="text-align: center; margin-bottom: 1.5rem;">Naujo bibliotekininko informacija</h2>
 
         <form method="POST" action="{{ route('admin.librarian.store') }}">
             @csrf
@@ -35,7 +35,7 @@
 
             <!-- Confirm Password -->
             <div class="form-group">
-                <label for="password_confirmation">Patvirtinkite Slaptažodį</label>
+                <label for="password_confirmation">Patvirtinkite slaptažodį</label>
                 <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password">
             </div>
 

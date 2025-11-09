@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="container">
-        <h1>Active Reservations</h1>
+        <h1>Aktyvios rezervacijos</h1>
         @auth
             @if(auth()->user()->hasRole('user'))
-                <a href="{{ route('reservations.create') }}" class="btn btn-primary">Pridėti Naują Rezervaciją</a>
+                <a href="{{ route('reservations.create') }}" class="btn btn-primary">Pridėti naują rezervaciją</a>
             @endif
         @endauth
 
@@ -15,13 +15,13 @@
                     <thead>
                     <tr>
                         @if(auth()->user()->hasRole('librarian'))
-                        <th>User</th>
+                        <th>Vartotojas</th>
                         @endif
-                        <th>Book Title</th>
-                        <th>Reservation Date</th>
-                        <th>Return By</th>
+                        <th>Knygos pavadinimas</th>
+                        <th>Rezervacijos data</th>
+                        <th>Grąžinti iki</th>
                         @if(auth()->user()->hasRole('librarian'))
-                        <th>Action</th>
+                        <th>Veiksmai</th>
                         @endif
                     </tr>
                     </thead>
@@ -49,7 +49,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center">No active reservations found.</td>
+                            <td colspan="5" class="text-center">Nėra aktyvių rezervacijų</td>
                         </tr>
                     @endforelse
                     </tbody>

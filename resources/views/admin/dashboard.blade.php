@@ -6,7 +6,7 @@
     <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
             <h2>Bibliotekininkų Valdymas</h2>
-            <a href="{{ route('admin.librarian.create') }}" class="btn btn-primary">Sukurti Bibliotekininką</a>
+            <a href="{{ route('admin.librarian.create') }}" class="btn btn-primary">Sukurti bibliotekininką</a>
         </div>
 
         @if($librarians->isEmpty())
@@ -20,7 +20,6 @@
                         <th>Pavardė</th>
                         <th>El. paštas</th>
                         <th>Sukurta</th>
-                        {{-- Add other columns if needed, e.g., for actions like 'edit' or 'delete' --}}
                     </tr>
                     </thead>
                     <tbody>

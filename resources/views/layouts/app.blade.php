@@ -43,11 +43,11 @@
         <div>
             @auth
                 @if(auth()->user()->hasRole('admin'))
-                    <a href="{{ route('admin.dashboard') }}">Admino Skydelis</a>
+                    <a href="{{ route('admin.dashboard') }}">Admino skydelis</a>
                     <a href="{{ route('books.index') }}">Knygų valdymas</a>
                 @elseif(auth()->user()->hasRole('librarian'))
                     {{-- Corrected link --}}
-                    <a href="{{ route('librarian.dashboard') }}">Bibliotekininko Skydelis</a>
+                    <a href="{{ route('librarian.dashboard') }}">Bibliotekininko skydelis</a>
                     <a href="{{ route('books.index') }}">Knygos</a>
                 @else
                     {{-- Regular user links --}}
