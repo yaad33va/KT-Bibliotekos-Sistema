@@ -40,6 +40,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', [Settings\AppearanceController::class, 'edit'])->name('settings.appearance.edit');
 });
 
+Route::middleware(['auth', 'role:user|librarian'])->group(function () {
+    Route::get('/librarian/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+
+
+});
+Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::post('/librarian/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+    Route::get('/librarian/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
+
+});
 // --- Protected Routes for Staff ---
 // Only Librarians and Admins can access these routes.
 Route::middleware(['auth', 'role:librarian'])->group(function () {
@@ -50,9 +60,6 @@ Route::middleware(['auth', 'role:librarian'])->group(function () {
 
     // Routes for managing reservations.
 
-    Route::get('/librarian/reservations', [ReservationController::class, 'index'])->name('reservations.index');
-    Route::post('/librarian/reservations', [ReservationController::class, 'store'])->name('reservations.store');
-    Route::get('/librarian/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
     Route::patch('/librarian/reservations/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
 
     // Route for the librarian dashboard.

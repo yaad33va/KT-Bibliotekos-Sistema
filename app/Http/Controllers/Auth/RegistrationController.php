@@ -28,8 +28,8 @@ class RegistrationController extends Controller
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
-
         event(new Registered(($user = User::create($validated))));
+        $user->assignRole('user');
 
         Auth::login($user);
 

@@ -4,7 +4,7 @@
     <div class="container">
         <h1>Active Reservations</h1>
         @auth
-            @if(auth()->user()->hasRole('librarian'))
+            @if(auth()->user()->hasRole('user'))
                 <a href="{{ route('reservations.create') }}" class="btn btn-primary">Pridėti Naują Rezervaciją</a>
             @endif
         @endauth
@@ -14,17 +14,23 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
+                        @if(auth()->user()->hasRole('librarian'))
                         <th>User</th>
+                        @endif
                         <th>Book Title</th>
                         <th>Reservation Date</th>
                         <th>Return By</th>
+                        @if(auth()->user()->hasRole('librarian'))
                         <th>Action</th>
+                        @endif
                     </tr>
                     </thead>
                     <tbody>
                     @forelse ($activeReservations as $reservation)
                         <tr>
+                            @if(auth()->user()->hasRole('librarian'))
                             <td>{{ $reservation->user->name }}</td>
+                            @endif
                             <td>{{ $reservation->book->title }}</td>
                             <td>{{ $reservation->reservation_date->format('Y-m-d') }}</td>
                             <td>{{ $reservation->return_date->format('Y-m-d') }}</td>

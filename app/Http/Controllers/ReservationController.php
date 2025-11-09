@@ -18,7 +18,12 @@ class ReservationController extends Controller
     public function index(): View
     {
         $activeReservations = Reservation::with(['user', 'book'])
-            ->whereNull('returned_at')
+            ->whereNull('returned_at');
+        if(auth()->user()->hasRole('user')){
+            $activeReservations = $activeReservations
+                ->where('user_id', auth()->user()->id);
+        }
+        $activeReservations = $activeReservations
             ->latest('reservation_date')
             ->paginate(15);
 
@@ -43,7 +48,6 @@ class ReservationController extends Controller
     {
         $request->validate([
             'book_id' => 'required|exists:books,id',
-            'user_id' => 'required|exists:users,id',
             'return_date' => 'required|date|after_or_equal:today',
         ]);
 
@@ -57,7 +61,7 @@ class ReservationController extends Controller
         // Create the reservation
         Reservation::create([
             'book_id' => $request->book_id,
-            'user_id' => $request->user_id,
+            'user_id' => $request->user()->id,
             'reservation_date' => now(),
             'return_date' => $request->return_date,
             'book_status' => BookStatus::Taken, // Assuming 'Paimta' is in your enum

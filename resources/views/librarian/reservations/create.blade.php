@@ -27,22 +27,6 @@
                                 @enderror
                             </div>
 
-                            {{-- User Selection --}}
-                            <div class="form-group mb-3">
-                                <label for="user_id">User</label>
-                                <select name="user_id" id="user_id" class="form-control" required>
-                                    <option value="">Select a user</option>
-                                    @foreach($users as $user)
-                                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                            {{ $user->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('user_id')
-                                <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                             {{-- Return Date --}}
                             <div class="form-group mb-3">
                                 <label for="return_date">Return By</label>

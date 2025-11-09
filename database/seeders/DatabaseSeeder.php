@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
 
         $user = User::factory()->create([
             'name' => 'Test user',
-            'surname' => 'Example',
             'email' => 'user@library.com',
             'password' => bcrypt('password'), // password
         ]);
@@ -24,7 +23,6 @@ class DatabaseSeeder extends Seeder
 
         $admin = User::factory()->create([
             'name' => 'Admin user',
-            'surname' => 'Example',
             'email' => 'admin@library.com',
             'password' => bcrypt('password'), // password
         ]);
@@ -33,7 +31,6 @@ class DatabaseSeeder extends Seeder
 
         $librarian = User::factory()->create([
             'name' => 'Librarian user',
-            'surname' => 'Example',
             'email' => 'librarian@library.com',
             'password' => bcrypt('password'), // password
         ]);

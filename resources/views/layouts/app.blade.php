@@ -52,6 +52,7 @@
                 @else
                     {{-- Regular user links --}}
                     <a href="{{ route('books.index') }}">Peržiūrėti knygas</a>
+                    <a href="{{ route('reservations.index') }}">Peržiūrėti rezervacijas</a>
                     {{-- <a href="{{ route('user.reservations') }}">Mano Rezervacijos</a> --}}
                 @endif
 
