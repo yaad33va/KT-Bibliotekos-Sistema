@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="card" style="max-width: 500px; margin: 2rem auto;">
-        <h2 style="text-align: center; margin-bottom: 1.5rem;">Prisijungti prie Paskyros</h2>
+        <h2 style="text-align: center; margin-bottom: 1.5rem;">Prisijungti prie paskyros</h2>
 
         <!-- Session Status -->
         @if (session('status'))

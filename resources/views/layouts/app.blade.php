@@ -8,14 +8,14 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
-        .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .navbar { background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%); color: white; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .navbar a { color: white; text-decoration: none; margin: 0 1rem; }
         .navbar a:hover { opacity: 0.8; }
         .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
         .card { background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 1rem 0; }
         .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
-        .btn-primary { background: #667eea; color: white; }
-        .btn-primary:hover { background: #5568d3; }
+        .btn-primary { background: #2a9d8f; color: white; }
+        .btn-primary:hover { background: #288a7d; }
         .btn-secondary { background: #6c757d; color: white; }
         .btn-secondary:hover { background: #5a6268; }
         .btn-danger { background: #dc3545; color: white; }
@@ -53,7 +53,6 @@
                     {{-- Regular user links --}}
                     <a href="{{ route('books.index') }}">Peržiūrėti knygas</a>
                     <a href="{{ route('reservations.index') }}">Peržiūrėti rezervacijas</a>
-                    {{-- <a href="{{ route('user.reservations') }}">Mano Rezervacijos</a> --}}
                 @endif
 
                 <form method="POST" action="{{ route('logout') }}" style="display: inline; margin-left: 1rem;">

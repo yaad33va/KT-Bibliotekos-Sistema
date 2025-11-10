@@ -53,7 +53,7 @@
     <div class="jumbotron">
         <div class="jumbotron-content">
             <h1>Sveiki atvykę į Bibliotekos Sistemą</h1>
-            <p>Jūsų žinios – mūsų prioritetas. Atraskite tūkstančius knygų ir istorijų.</p>
+            <p>Darbo autorė: Denisa Valinčiūtė, IFF-3/2</p>
             <div>
                 @auth
                     @if(auth()->user()->hasRole('admin'))
@@ -72,22 +72,4 @@
         </div>
     </div>
 
-    <div class="card">
-        <h2>Atraskite mūsų biblioteką</h2>
-        <p>Mūsų sistema sukurta tam, kad galėtumėte lengvai ir patogiai pasiekti didžiulę knygų kolekciją, skolintis ir atrasti naujus skaitinius.</p>
-        <div class="grid" style="margin-top: 2rem;">
-            <div class="card">
-                <h3>Platus Knygų Pasirinkimas</h3>
-                <p>Naršykite po tūkstančius knygų įvairiomis temomis – nuo grožinės literatūros iki mokslinių veikalų.</p>
-            </div>
-            <div class="card">
-                <h3>Paprastas Skolinimasis</h3>
-                <p>Patogi skolinimosi ir grąžinimo sistema leidžia jums valdyti savo paskolas vos keliais paspaudimais.</p>
-            </div>
-            <div class="card">
-                <h3>Moderni Paieška</h3>
-                <p>Greitai raskite norimas knygas naudodamiesi išplėstine paieška ir filtravimo galimybėmis.</p>
-            </div>
-        </div>
-    </div>
 @endsection

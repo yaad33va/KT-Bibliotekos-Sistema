@@ -99,7 +99,7 @@ class ReservationController extends Controller
         // Update the reservation record
         $reservation->update([
             'returned_at' => now(),
-            'book_status' => BookStatus::Returned, // Assuming 'Laisva' is a valid status
+            'book_status' => BookStatus::Returned,
         ]);
 
         // Increment the available quantity of the book

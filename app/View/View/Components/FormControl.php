@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\View\Components;
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
