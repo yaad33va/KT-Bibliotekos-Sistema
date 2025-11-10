@@ -83,7 +83,7 @@ class ReservationController extends Controller
         // Decrement the book quantity
         $book->decrement('book_count');
 
-        return redirect()->route('reservations.index')->with('success', 'Reservation created successfully.');
+        return redirect()->route('reservations.index')->with('success', 'Rezervacija sukurta sėkmingai.');
     }
 
     /**
@@ -93,7 +93,7 @@ class ReservationController extends Controller
     {
         // Check if the book has already been marked as returned to prevent errors
         if ($reservation->returned_at) {
-            return redirect()->route('reservations.index')->withErrors(['error' => 'This reservation has already been closed.']);
+            return redirect()->route('reservations.index')->withErrors(['error' => 'Ši knyga yra jau grąžinta.']);
         }
 
         // Update the reservation record
@@ -105,6 +105,6 @@ class ReservationController extends Controller
         // Increment the available quantity of the book
         $reservation->book->increment('book_count');
 
-        return redirect()->route('reservations.index')->with('success', 'Book successfully marked as returned.');
+        return redirect()->route('reservations.index')->with('success', 'Knyga sėkmingai pažymėta kaip grąžinta.');
     }
 }

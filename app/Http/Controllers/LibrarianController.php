@@ -17,7 +17,6 @@ class LibrarianController extends Controller
     public function dashboard(): View
     {
         $totalBooks = Book::count();
-        // This assumes you have a way to check if a book is borrowed, e.g., a status column
         $borrowedBooks = Book::where('is_borrowed', true)->count();
         $totalUsers = User::count();
 

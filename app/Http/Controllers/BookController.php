@@ -65,7 +65,7 @@ class BookController extends Controller
     public function destroy(Book $book): RedirectResponse
     {
         if ($book->reservations()->whereNull('returned_at')->exists()) {
-            return back()->withErrors(['error' => 'Negalima ištrinti knygos, kuri yra aktyviai rezervuota.']);
+            return back()->withErrors(['error' => 'Negalima ištrinti knygos, kuri yra rezervuota.']);
         }
 
         $book->delete();

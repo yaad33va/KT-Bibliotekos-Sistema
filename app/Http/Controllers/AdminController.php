@@ -52,6 +52,6 @@ class AdminController extends Controller
         // Assuming you are using a role system (like Spatie's)
         $user->assignRole('librarian');
 
-        return redirect()->route('admin.dashboard')->with('success', 'Bibliotekininkas sėkmingai sukurtas!');
+        return redirect()->route('admin.dashboard')->with('success', 'Bibliotekininkas sėkmingai sukurtas.');
     }
 }
