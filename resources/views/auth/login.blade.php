@@ -39,13 +39,6 @@
                 <button type="submit" class="btn btn-primary">Prisijungti</button>
             </div>
 
-            @if (Route::has('password.request'))
-                <div style="text-align: center; margin-top: 1rem;">
-                    <a class="btn-link" href="{{ route('password.request') }}">
-                        Pamiršote slaptažodį?
-                    </a>
-                </div>
-            @endif
         </form>
     </div>
     <style>.btn-link { color: #667eea; text-decoration: none; } .btn-link:hover { text-decoration: underline; }</style>

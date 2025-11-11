@@ -29,7 +29,8 @@
         .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .alert-danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #ddd; }
+        th, tr { border-bottom: 1px solid #ddd; }
+        th, td {padding: 1rem; text-align: left;}
         th { background: #f9f9f9; font-weight: 600; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
     </style>

@@ -2,7 +2,7 @@
 @section('title', 'Pridėti Naują Knygą')
 @section('content')
     <div class="card" style="max-width: 600px; margin: 2rem auto;">
-        <h2 style="text-align: center; margin-bottom: 1.5rem;">Pridėti Naują Knygą</h2>
+        <h2 style="text-align: center; margin-bottom: 1.5rem;">Pridėti naują knygą</h2>
         <form method="POST" action="{{ route('books.store') }}">
             @csrf
             <div class="form-group"><label for="title">Pavadinimas</label><input id="title" type="text" name="title" value="{{ old('title') }}" required></div>

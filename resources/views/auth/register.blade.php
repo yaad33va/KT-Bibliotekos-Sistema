@@ -14,7 +14,10 @@
                 <label for="name">Vardas</label>
                 <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name">
             </div>
-
+            <div class="form-group">
+                <label for="name">Pavardė</label>
+                <input id="surname" type="text" name="surname" value="{{ old('surname') }}" required autofocus autocomplete="surname">
+            </div>
             <!-- Email Address -->
             <div class="form-group">
                 <label for="email">El. paštas</label>
@@ -29,7 +32,7 @@
 
             <!-- Confirm Password -->
             <div class="form-group">
-                <label for="password_confirmation">Patvirtinkite Slaptažodį</label>
+                <label for="password_confirmation">Patvirtinkite slaptažodį</label>
                 <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password">
             </div>
 

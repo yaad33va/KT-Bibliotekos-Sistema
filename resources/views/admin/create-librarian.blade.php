@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Sukurti Bibliotekininką')
+@section('title', 'Sukurti bibliotekininką')
 
 @section('content')
     <div class="card" style="max-width: 600px; margin: 2rem auto;">

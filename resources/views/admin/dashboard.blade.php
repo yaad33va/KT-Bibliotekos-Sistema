@@ -5,7 +5,7 @@
 @section('content')
     <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <h2>Bibliotekininkų Valdymas</h2>
+            <h2>Bibliotekininkų valdymas</h2>
             <a href="{{ route('admin.librarian.create') }}" class="btn btn-primary">Sukurti bibliotekininką</a>
         </div>
 

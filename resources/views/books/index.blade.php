@@ -41,7 +41,7 @@
                             <td>{{ $book->book_description }}</td>
                             @auth
                                 @if(auth()->user()->hasRole('librarian'))
-                                    <td style="display: flex; gap: 0.5rem;">
+                                    <td style="display: flex; gap: 0.5rem">
                                         <a href="{{ route('books.edit', $book) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">Redaguoti</a>
                                         <form action="{{ route('books.destroy', $book) }}" method="POST" onsubmit="return confirm('Ar tikrai norite ištrinti šią knygą?');">
                                             @csrf

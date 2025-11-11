@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Aktyvios rezervacijos</h1>
+        <center><h2>Rezervuotų knygų sąrašas</h2></center>
         @auth
             @if(auth()->user()->hasRole('user'))
                 <a href="{{ route('reservations.create') }}" class="btn btn-primary">Pridėti naują rezervaciją</a>
