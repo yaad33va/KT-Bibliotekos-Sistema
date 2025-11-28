@@ -48,6 +48,21 @@
             padding: 1rem 2rem;
             font-size: 1.25rem;
         }
+
+        /* reminder card styles */
+        .reminder-card .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .reminder-meta {
+            text-align: right;
+            min-width: 160px;
+        }
+        .reminder-small {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
     </style>
 
     <div class="jumbotron">
@@ -59,7 +74,6 @@
                     @if(auth()->user()->hasRole('admin'))
                         <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-lg">Eiti į Admino Skydelį</a>
                     @elseif(auth()->user()->hasRole('librarian'))
-                        {{-- Corrected link --}}
                         <a href="{{ route('librarian.dashboard') }}" class="btn btn-primary btn-lg">Eiti į Skydelį</a>
                     @else
                         <a href="{{ route('books.index') }}" class="btn btn-primary btn-lg">Peržiūrėti knygas</a>
@@ -72,4 +86,51 @@
         </div>
     </div>
 
+    <div class="container">
+        {{-- Primintojas rodomas tik prisijungusiam vartotojui su role "user" --}}
+        @auth
+            @if(auth()->user()->hasRole('user') && isset($dueReservations) && $dueReservations->isNotEmpty())
+                <div class="card mb-4 reminder-card">
+                    <div class="card-header">
+                        Knygos, kurias turite grąžinti per artimiausias {{ $daysWindow }} d.
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            @foreach($dueReservations as $res)
+                                <li class="list-group-item">
+                                    <div>
+                                        <strong>{{ optional($res->book)->title ?? 'Nežinoma knyga' }}</strong>
+                                        <div class="reminder-small">
+                                            Rezervuota: {{ optional($res->reservation_date)->format('Y-m-d H:i') ?? '-' }}
+                                        </div>
+                                    </div>
+
+                                    <div class="reminder-meta">
+                                        <div>
+                                            <span class="reminder-small">Grąžinti iki:</span><br>
+                                            <strong>{{ optional($res->return_date)->format('Y-m-d H:i') ?? '-' }}</strong>
+                                        </div>
+
+                                        <div style="margin-top:6px;">
+                                            @if(optional($res->return_date)->isPast())
+                                                <span class="badge bg-danger">Pradelsta</span>
+                                            @else
+                                              {{--  <span class="badge bg-warning text-dark">
+                                                    Iki termino: {{ $res->return_date->diffForHumans(null, true) }}
+                                                </span>--}}
+                                            @endif
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+
+                        <div class="p-3">
+                            <a href="{{ route('reservations.index') }}" class="btn btn-sm btn-outline-primary">Peržiūrėti visas rezervacijas</a>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        @endauth
+    </div>
 @endsection

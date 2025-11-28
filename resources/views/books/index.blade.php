@@ -2,14 +2,21 @@
 @section('title', 'Knygų Sąrašas')
 @section('content')
     <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <h2>Knygų katalogas</h2>
-            @auth
-                @if(auth()->user()->hasRole('librarian'))
-                    <a href="{{ route('books.create') }}" class="btn btn-primary">Pridėti naują Knygą</a>
-                @endif
-            @endauth
+        <!-- Flex layout with three columns: left spacer, centered title, right actions -->
+        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+            <div style="flex: 1;"></div>
+
+            <h2 style="margin: 0; text-align: center; flex: 1;">Knygų katalogas</h2>
+
+            <div style="flex: 1; display: flex; justify-content: flex-end;">
+                @auth
+                    @if(auth()->user()->hasRole('librarian'))
+                        <a href="{{ route('books.create') }}" class="btn btn-primary">Pridėti naują Knygą</a>
+                    @endif
+                @endauth
+            </div>
         </div>
+
         @if($books->isEmpty())
             <p>Knygų katalogas tuščias.</p>
         @else

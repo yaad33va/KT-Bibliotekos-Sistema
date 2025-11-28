@@ -59,13 +59,19 @@ class ReservationController extends Controller
             return redirect()->back()->withErrors(['book_id' => 'Knyga negalima išdavimui'])->withInput();
         }
 
-        $canMakeReservation = Reservation::where(function($query)use($request){
-            $query->where('user_id', $request->user()->id)->whereColumn('returned_at', '<', 'return_date')
-                ->orWhere(function($subquery){
-                    $subquery->whereNull('returned_at')
-                        ->where('return_date', '<', Carbon::today());
-                });
-        })->count();
+        $canMakeReservation = Reservation::where('user_id', $request->user()->id)
+            ->where(function($query) {
+                // Check for books returned late
+                $query->where(function($subquery) {
+                    $subquery->whereNotNull('returned_at')
+                        ->whereColumn('returned_at', '>', 'return_date');
+                })
+                    // OR books that are not returned and are overdue
+                    ->orWhere(function($subquery) {
+                        $subquery->whereNull('returned_at')
+                            ->where('return_date', '<', Carbon::today());
+                    });
+            })->count();
 
         if ($canMakeReservation > 0) {
             return redirect()->back()->withErrors(['return_date' => 'Turite laiku negrąžintų knygų'])->withInput();
