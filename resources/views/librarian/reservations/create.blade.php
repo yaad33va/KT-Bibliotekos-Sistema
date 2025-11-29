@@ -30,7 +30,7 @@
                             {{-- Return Date --}}
                             <div class="form-group mb-3">
                                 <label for="return_date">Grąžinti iki</label>
-                                <input type="date" name="return_date" id="return_date" class="form-control" value="{{ old('return_date', now()->addWeeks(1)->format('Y-m-d')) }}" readonly required>
+                                <input type="text" name="return_date" id="return_date" class="form-control" value="{{ old('return_date', now()->addWeeks(1)->format('Y-m-d H:i')) }}" readonly required>
                                 @error('return_date')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror

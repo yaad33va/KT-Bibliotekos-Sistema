@@ -32,8 +32,8 @@
                             <td>{{ $reservation->user->name }}</td>
                             @endif
                             <td>{{ $reservation->book->title }}</td>
-                            <td>{{ $reservation->reservation_date->format('Y-m-d') }}</td>
-                            <td>{{ $reservation->return_date->format('Y-m-d') }}</td>
+                            <td>{{ $reservation->reservation_date->format('Y-m-d H:i') }}</td>
+                            <td>{{ $reservation->return_date->format('Y-m-d H:i') }}</td>
 
                             @auth
                                 @if(auth()->user()->hasRole('librarian'))
