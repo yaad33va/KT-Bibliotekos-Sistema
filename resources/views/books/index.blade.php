@@ -18,7 +18,7 @@
         </div>
 
         @if($books->isEmpty())
-            <p>Knygų katalogas tuščias.</p>
+            <p class="text-center text-muted my-5">Knygų katalogas tuščias.</p>
         @else
             <div style="overflow-x: auto;">
                 <table>
@@ -27,12 +27,13 @@
                         <th>Pavadinimas</th>
                         <th>Autorius</th>
                         <th>Žanras</th>
-                        <th>Leidimo Data</th>
-                        <th>Laisvas Kiekis</th>
-                        <th>Aprašymas</th>
+                        {{-- Pakeitimas: Pridėta white-space: nowrap, kad antraštė nelūžtų --}}
+                        <th style="white-space: nowrap;">Leidimo Data</th>
+                        <th style="white-space: nowrap;">Laisvas Kiekis</th>
+                        <th style="width: 40%;">Aprašymas</th>
                         @auth
                             @if(auth()->user()->hasRole('librarian'))
-                                <th>Veiksmai</th>
+                                <th style="width: 200px;">Veiksmai</th>
                             @endif
                         @endauth
                     </tr>
@@ -40,21 +41,35 @@
                     <tbody>
                     @foreach ($books as $book)
                         <tr>
-                            <td>{{ $book->title }}</td>
-                            <td>{{ $book->author }}</td>
-                            <td>{{ $book->genre }}</td>
-                            <td>{{ $book->release_date->format('Y-m-d') }}</td>
-                            <td>{{ $book->book_count }}</td>
-                            <td>{{ $book->book_description }}</td>
+                            <td style="font-weight: 600; color: #264653; vertical-align: top;">{{ $book->title }}</td>
+                            <td style="vertical-align: top;">{{ $book->author }}</td>
+                            <td style="vertical-align: top;">{{ $book->genre }}</td>
+
+                            {{-- Pakeitimas: Pridėta white-space: nowrap, kad data visada būtų vienoje eilutėje --}}
+                            <td style="vertical-align: top; white-space: nowrap;">{{ $book->release_date->format('Y-m-d') }}</td>
+
+                            <td style="vertical-align: top;">
+                                <span class="badge {{ $book->book_count > 0 ? 'bg-success' : 'bg-danger' }}"
+                                      style="padding: 0.3rem 0.6rem; border-radius: 20px; color: black; font-size: 0.85rem;">
+                                    {{ $book->book_count }}
+                                </span>
+                            </td>
+                            <td style="vertical-align: top;">
+                                <div style="color: #555;">
+                                    {{ $book->book_description }}
+                                </div>
+                            </td>
                             @auth
                                 @if(auth()->user()->hasRole('librarian'))
-                                    <td style="display: flex; gap: 0.5rem">
-                                        <a href="{{ route('books.edit', $book) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">Redaguoti</a>
-                                        <form action="{{ route('books.destroy', $book) }}" method="POST" onsubmit="return confirm('Ar tikrai norite ištrinti šią knygą?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" style="padding: 0.5rem 1rem;">Ištrinti</button>
-                                        </form>
+                                    <td style="vertical-align: top;">
+                                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                            <a href="{{ route('books.edit', $book) }}" class="btn btn-secondary btn-sm" style="font-size: 0.8rem;">Redaguoti</a>
+                                            <form action="{{ route('books.destroy', $book) }}" method="POST" onsubmit="return confirm('Ar tikrai norite ištrinti šią knygą?');" style="margin: 0;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" style="font-size: 0.8rem;">Ištrinti</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 @endif
                             @endauth

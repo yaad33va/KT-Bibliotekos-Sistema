@@ -22,7 +22,6 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            /* PAKEISTA: Nuimta žalia spalva, paliktas tik neutralus tamsinimas, kad tekstas būtų baltas ir įskaitomas */
             background: rgba(0, 0, 0, 0.6);
             z-index: 1;
         }
@@ -41,19 +40,9 @@
 
         .jumbotron p {
             font-size: 1.25rem;
-            margin-bottom: 2rem;
+            margin-bottom: 0; /* Sumažinta apatinė paraštė, nes nebėra mygtukų */
             opacity: 0.95;
             text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
-        }
-
-        /* Mygtukų stilius Jumbotron'e */
-        .jumbotron .btn {
-            margin: 0.5rem;
-            border-width: 0;
-            font-weight: 700;
-            padding: 1rem 2rem; /* Didesni mygtukai */
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         /* Priminimų kortelės stilius */
@@ -155,23 +144,9 @@
         <div class="jumbotron-content">
             <h1>Sveiki atvykę į Bibliotekos Sistemą</h1>
             <p>Darbo autorė: Denisa Valinčiūtė, IFF-3/2</p>
-            <div style="margin-top: 2rem;">
-                @auth
-                    @if(auth()->user()->hasRole('admin'))
-                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-lg shadow">Eiti į Admino Skydelį</a>
-                    @elseif(auth()->user()->hasRole('librarian'))
-                        <a href="{{ route('librarian.dashboard') }}" class="btn btn-primary btn-lg shadow">Eiti į Skydelį</a>
-                    @else
-                        {{-- PAKEISTA: Naudojama btn-primary klasė (matomas fonas), tekstas baltas --}}
-                        <a href="{{ route('books.index') }}" class="btn btn-primary btn-lg shadow">
-                            <i class="fas fa-book"></i> Peržiūrėti knygas
-                        </a>
-                    @endif
-                @else
-                    <a href="{{ route('login') }}" class="btn btn-primary btn-lg shadow me-2">Prisijungti</a>
-                    <a href="{{ route('register') }}" class="btn btn-light btn-lg">Registruotis</a>
-                @endauth
-            </div>
+
+            {{-- Mygtukai pašalinti, nes jie perkelti į navigaciją --}}
+
         </div>
     </div>
 
@@ -179,21 +154,16 @@
         @auth
             @if(auth()->user()->hasRole('user') && isset($dueReservations) && $dueReservations->isNotEmpty())
                 <div class="card reminder-card">
-
-                    {{-- Stilingas Žalias Headeris --}}
                     <div class="reminder-header-styled">
                         <div class="reminder-title">
                             <i class="fas fa-bell"></i>
                             PRIMINIMAI
                         </div>
                     </div>
-
-                    {{-- Informacinė juostelė --}}
                     <div class="alert-info-custom text-center">
                         <i class="fas fa-clock" style="color: #2a9d8f;"></i>
                         <span>Knygos, kurias turite grąžinti per artimiausias <strong>{{ $daysWindow }} d.</strong></span>
                     </div>
-
                     <div class="card-body p-0">
                         <ul class="list-group list-group-flush">
                             @foreach($dueReservations as $res)
@@ -207,19 +177,15 @@
                                             Rezervuota: {{ optional($res->reservation_date)->format('Y-m-d H:i') ?? '-' }}
                                         </div>
                                     </div>
-
                                     <div class="reminder-meta">
                                         <div class="reminder-small">Grąžinti iki</div>
-
                                         @php
                                             $isUrgent = optional($res->return_date)->isPast() || optional($res->return_date)->diffInDays(now()) < 2;
                                         @endphp
-
                                         <div class="due-date {{ $isUrgent ? 'urgent' : '' }}">
                                             {{ optional($res->return_date)->format('Y-m-d') }}
                                             <span style="font-size: 0.8rem; opacity: 0.8;">{{ optional($res->return_date)->format('H:i') }}</span>
                                         </div>
-
                                         @if(optional($res->return_date)->isPast())
                                             <span class="badge bg-danger mt-1">Pradelsta</span>
                                         @endif
@@ -227,7 +193,6 @@
                                 </li>
                             @endforeach
                         </ul>
-
                         <div class="p-3 text-center bg-light border-top">
                             <a href="{{ route('reservations.index') }}" class="btn btn-sm btn-outline-secondary" style="color: #264653; border-color: #264653;">
                                 Peržiūrėti visas rezervacijas <i class="fas fa-arrow-right ml-1"></i>

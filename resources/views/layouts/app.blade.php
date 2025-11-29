@@ -209,8 +209,9 @@
                     <a href="{{ route('admin.dashboard') }}">Admino skydelis</a>
                     <a href="{{ route('books.index') }}">Knygų valdymas</a>
                 @elseif(auth()->user()->hasRole('librarian'))
-                    <a href="{{ route('librarian.dashboard') }}">Bibliotekininko skydelis</a>
-                    <a href="{{ route('books.index') }}">Knygos</a>
+                    {{-- Nuoroda į skydelį pašalinta, paliktos tik tiesioginės valdymo nuorodos --}}
+                    <a href="{{ route('books.index') }}">Knygų valdymas</a>
+                    <a href="{{ route('reservations.index') }}">Rezervacijų valdymas</a>
                 @else
                     <a href="{{ route('books.index') }}">Knygos</a>
                     <a href="{{ route('reservations.index') }}">Mano rezervacijos</a>
