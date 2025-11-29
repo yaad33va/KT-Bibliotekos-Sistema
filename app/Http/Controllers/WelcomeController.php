@@ -16,11 +16,9 @@ class WelcomeController extends Controller
      */
     public function index(Request $request): View
     {
-        // Basic books data (kept from your original WelcomeController)
         $books = Book::all();
         $booksCount = $books->count();
 
-        // Reminder data for logged-in regular users
         $user = $request->user();
         $daysWindow = 7; // per kiek dienų laikome "artimu laiku"
         $dueReservations = collect();
