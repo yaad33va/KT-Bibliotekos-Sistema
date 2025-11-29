@@ -40,7 +40,7 @@
 
         .jumbotron p {
             font-size: 1.25rem;
-            margin-bottom: 0; /* Sumažinta apatinė paraštė, nes nebėra mygtukų */
+            margin-bottom: 0;
             opacity: 0.95;
             text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
         }
@@ -144,9 +144,6 @@
         <div class="jumbotron-content">
             <h1>Sveiki atvykę į Bibliotekos Sistemą</h1>
             <p>Darbo autorė: Denisa Valinčiūtė, IFF-3/2</p>
-
-            {{-- Mygtukai pašalinti, nes jie perkelti į navigaciją --}}
-
         </div>
     </div>
 

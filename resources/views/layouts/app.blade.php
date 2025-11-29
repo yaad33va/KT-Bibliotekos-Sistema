@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    {{-- FontAwesome ikonoms (jei prireiktų ateityje) --}}
+    {{-- FontAwesome ikonoms --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -97,6 +97,20 @@
         }
 
         .nav-links a:hover::after { width: 100%; }
+
+        /* Prisijungusio vartotojo info stilius */
+        .user-display {
+            color: var(--accent);
+            font-weight: 700;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
         .logout-btn {
             background: rgba(255,255,255,0.2);
@@ -205,11 +219,16 @@
 
         <div class="nav-links">
             @auth
+                <div class="user-display">
+                    <i class="fas fa-user-circle"></i> {{ auth()->user()->name }}
+                </div>
+
                 @if(auth()->user()->hasRole('admin'))
-                    <a href="{{ route('admin.dashboard') }}">Admino skydelis</a>
-                    <a href="{{ route('books.index') }}">Knygų valdymas</a>
+                    {{-- PAKEISTA: "Admino skydelis" pakeistas į "Bibliotekininkų valdymas" --}}
+                    <a href="{{ route('admin.dashboard') }}">Bibliotekininkų valdymas</a>
+                   {{-- <a href="{{ route('books.index') }}">Knygų valdymas</a>
+                    <a href="{{ route('reservations.index') }}">Rezervacijų valdymas</a>--}}
                 @elseif(auth()->user()->hasRole('librarian'))
-                    {{-- Nuoroda į skydelį pašalinta, paliktos tik tiesioginės valdymo nuorodos --}}
                     <a href="{{ route('books.index') }}">Knygų valdymas</a>
                     <a href="{{ route('reservations.index') }}">Rezervacijų valdymas</a>
                 @else
