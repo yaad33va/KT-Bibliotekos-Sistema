@@ -24,6 +24,10 @@ class LoginController extends Controller
         $request->validate([
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+        ], [
+            'email.required' => 'El. pašto adresas yra privalomas.',
+            'email.email' => 'Įveskite galiojantį el. pašto adresą.',
+            'password.required' => 'Slaptažodis yra privalomas.',
         ]);
 
         $this->ensureIsNotRateLimited($request);
@@ -32,7 +36,7 @@ class LoginController extends Controller
             RateLimiter::hit($this->throttleKey($request));
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'Neteisingi prisijungimo duomenys.',
             ]);
         }
 

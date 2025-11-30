@@ -26,6 +26,16 @@ class RegistrationController extends Controller
             'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            // LIETUVIŠKI PRANEŠIMAI
+            'name.required' => 'Vardo laukas yra privalomas.',
+            'surname.required' => 'Pavardės laukas yra privalomas.',
+            'email.required' => 'El. pašto adresas yra privalomas.',
+            'email.email' => 'Įveskite galiojantį el. pašto adresą.',
+            'email.unique' => 'Toks el. paštas jau registruotas sistemoje.',
+            'password.required' => 'Slaptažodis yra privalomas.',
+            'password.confirmed' => 'Slaptažodžiai nesutampa.',
+            'password.min' => 'Slaptažodis turi būti bent :min simbolių ilgio.',
         ]);
 
         $validated['password'] = Hash::make($validated['password']);

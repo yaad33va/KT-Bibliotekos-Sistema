@@ -8,31 +8,42 @@
                     <div class="card-header">Sukurti naują rezervaciją</div>
 
                     <div class="card-body">
-                        <form action="{{ route('reservations.store') }}" method="POST">
+                        {{-- PAKEITIMAS: Pridėtas 'novalidate', kad naršyklė nešokinėtų su angliškais tekstais --}}
+                        <form action="{{ route('reservations.store') }}" method="POST" novalidate>
                             @csrf
 
                             {{-- Book Selection --}}
                             <div class="form-group mb-3">
                                 <label for="book_id">Knyga</label>
-                                <select name="book_id" id="book_id" class="form-control" required>
+                                {{-- PAKEITIMAS: Pridėta klasė 'is-invalid', jei yra klaida --}}
+                                <select name="book_id" id="book_id" class="form-control @error('book_id') is-invalid @enderror" required>
                                     <option value="">Pasirinkti knygą</option>
                                     @foreach($books as $book)
                                         <option value="{{ $book->id }}" {{ old('book_id') == $book->id ? 'selected' : '' }}>
-                                            {{ $book->title }} ({{ $book->quantity }}laisva)
+                                            {{ $book->title }} ({{ $book->quantity }} laisva)
                                         </option>
                                     @endforeach
                                 </select>
+
                                 @error('book_id')
-                                <div class="text-danger">{{ $message }}</div>
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
                                 @enderror
                             </div>
 
                             {{-- Return Date --}}
                             <div class="form-group mb-3">
                                 <label for="return_date">Grąžinti iki</label>
-                                <input type="text" name="return_date" id="return_date" class="form-control" value="{{ old('return_date', now()->addWeeks(1)->format('Y-m-d H:i')) }}" readonly required>
+                                <input type="text" name="return_date" id="return_date"
+                                       class="form-control @error('return_date') is-invalid @enderror"
+                                       value="{{ old('return_date', now()->addWeeks(1)->format('Y-m-d H:i')) }}"
+                                       readonly required>
+
                                 @error('return_date')
-                                <div class="text-danger">{{ $message }}</div>
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
                                 @enderror
                             </div>
 

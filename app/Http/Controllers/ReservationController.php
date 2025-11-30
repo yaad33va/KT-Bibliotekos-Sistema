@@ -50,6 +50,13 @@ class ReservationController extends Controller
         $request->validate([
             'book_id' => 'required|exists:books,id',
             'return_date' => 'required|date|after_or_equal:today',
+        ], [
+            // LIETUVIŠKI PRANEŠIMAI
+            'book_id.required' => 'Privaloma pasirinkti knygą.',
+            'book_id.exists' => 'Pasirinkta knyga neegzistuoja.',
+            'return_date.required' => 'Grąžinimo data yra privaloma.',
+            'return_date.date' => 'Neteisingas datos formatas.',
+            'return_date.after_or_equal' => 'Grąžinimo data negali būti ankstesnė nei šiandien.',
         ]);
 
         $book = Book::findOrFail($request->book_id);

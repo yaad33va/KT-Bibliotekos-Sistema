@@ -62,6 +62,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/librarians/create', [AdminController::class, 'createLibrarian'])->name('admin.librarian.create');
     Route::post('/librarians', [AdminController::class, 'storeLibrarian'])->name('admin.librarian.store');
+    Route::delete('/admin/librarian/{user}', [AdminController::class, 'destroyLibrarian'])->name('admin.librarian.destroy');
 });
 
 // --- Authentication Routes ---

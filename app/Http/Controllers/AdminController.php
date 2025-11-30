@@ -9,12 +9,8 @@ use Illuminate\Validation\Rules;
 
 class AdminController extends Controller
 {
-    /**
-     * Display the admin dashboard with a list of librarians.
-     */
     public function dashboard()
     {
-        // Assuming you have a 'librarian' role
         $librarians = User::whereHas('roles', function ($query) {
             $query->where('name', 'librarian');
         })->get();
@@ -22,21 +18,13 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('librarians'));
     }
 
-    /**
-     * Show the form for creating a new librarian.
-     */
     public function createLibrarian()
     {
         return view('admin.create-librarian');
     }
 
-    /**
-     * Store a newly created librarian in storage.
-     */
     public function storeLibrarian(Request $request)
     {
-        // Pirmas masyvas - taisyklės
-        // Antras masyvas - jūsų lietuviški pranešimai
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
@@ -49,7 +37,7 @@ class AdminController extends Controller
             'email.email' => 'Įveskite galiojantį el. pašto adresą.',
             'email.unique' => 'Toks el. paštas jau registruotas sistemoje.',
             'password.required' => 'Slaptažodis yra privalomas.',
-            'password.confirmed' => 'Slaptažodžiai nesutampa.', // Čia dažniausia klaida, kai įveda neteisingai antrą kartą
+            'password.confirmed' => 'Slaptažodžiai nesutampa.',
             'password.min' => 'Slaptažodis turi būti bent :min simbolių ilgio.',
         ]);
 
@@ -60,9 +48,21 @@ class AdminController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Assuming you are using a role system (like Spatie's)
         $user->assignRole('librarian');
 
         return redirect()->route('admin.dashboard')->with('success', 'Bibliotekininkas sėkmingai sukurtas.');
+    }
+
+    // NAUJA FUNKCIJA TRINIMUI
+    public function destroyLibrarian(User $user)
+    {
+        // Apsauga: leidžiame trinti tik bibliotekininkus
+        if (!$user->hasRole('librarian')) {
+            return back()->with('error', 'Negalima ištrinti šio vartotojo.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('admin.dashboard')->with('success', 'Bibliotekininkas sėkmingai pašalintas.');
     }
 }

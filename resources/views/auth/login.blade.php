@@ -13,19 +13,36 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        <!-- PAKEITIMAS: Pridėtas 'novalidate' atributas -->
+        <form method="POST" action="{{ route('login') }}" novalidate>
             @csrf
 
             <!-- Email Address -->
             <div class="form-group">
                 <label for="email">El. paštas</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="email">
+                {{-- PAKEITIMAS: Pridėtas stilius klaidoms ir klaidos pranešimas --}}
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="email"
+                       @error('email') style="border-color: #e3342f;" @enderror>
+
+                @error('email')
+                <span style="color: #e3342f; font-size: 0.875em; display: block; margin-top: 5px;">
+                        {{ $message }}
+                    </span>
+                @enderror
             </div>
 
             <!-- Password -->
             <div class="form-group">
                 <label for="password">Slaptažodis</label>
-                <input id="password" type="password" name="password" required autocomplete="current-password">
+                {{-- PAKEITIMAS: Pridėtas stilius klaidoms ir klaidos pranešimas --}}
+                <input id="password" type="password" name="password" required autocomplete="current-password"
+                       @error('password') style="border-color: #e3342f;" @enderror>
+
+                @error('password')
+                <span style="color: #e3342f; font-size: 0.875em; display: block; margin-top: 5px;">
+                        {{ $message }}
+                    </span>
+                @enderror
             </div>
 
             <!-- Remember Me -->

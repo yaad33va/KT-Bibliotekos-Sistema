@@ -226,6 +226,7 @@
                 @if(auth()->user()->hasRole('admin'))
                     {{-- PAKEISTA: "Admino skydelis" pakeistas į "Bibliotekininkų valdymas" --}}
                     <a href="{{ route('admin.dashboard') }}">Bibliotekininkų valdymas</a>
+                    <a href="{{ route('books.index') }}">Knygos</a>
                    {{-- <a href="{{ route('books.index') }}">Knygų valdymas</a>
                     <a href="{{ route('reservations.index') }}">Rezervacijų valdymas</a>--}}
                 @elseif(auth()->user()->hasRole('librarian'))
