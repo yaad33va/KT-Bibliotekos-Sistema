@@ -1,8 +1,36 @@
 @extends('layouts.app')
 @section('title', 'Knygų Sąrašas')
 @section('content')
+    <style>
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Tamsus fonas */
+            display: none; /* Paslėptas pagal nutylėjimą */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .custom-modal-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 350px;
+            text-align: center;
+        }
+        .custom-modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+    </style>
+
     <div class="card">
-        <!-- Flex layout with three columns: left spacer, centered title, right actions -->
         <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
             <div style="flex: 1;"></div>
 
@@ -27,7 +55,6 @@
                         <th>Pavadinimas</th>
                         <th>Autorius</th>
                         <th>Žanras</th>
-                        {{-- Pakeitimas: Pridėta white-space: nowrap, kad antraštė nelūžtų --}}
                         <th style="white-space: nowrap;">Leidimo Data</th>
                         <th style="white-space: nowrap;">Laisvas Kiekis</th>
                         <th style="width: 40%;">Aprašymas</th>
@@ -45,7 +72,6 @@
                             <td style="vertical-align: top;">{{ $book->author }}</td>
                             <td style="vertical-align: top;">{{ $book->genre }}</td>
 
-                            {{-- Pakeitimas: Pridėta white-space: nowrap, kad data visada būtų vienoje eilutėje --}}
                             <td style="vertical-align: top; white-space: nowrap;">{{ $book->release_date->format('Y-m-d') }}</td>
 
                             <td style="vertical-align: top;">
@@ -64,11 +90,13 @@
                                     <td style="vertical-align: top;">
                                         <div style="display: flex; gap: 0.5rem; align-items: center;">
                                             <a href="{{ route('books.edit', $book) }}" class="btn btn-secondary btn-sm" style="font-size: 0.8rem;">Redaguoti</a>
-                                            <form action="{{ route('books.destroy', $book) }}" method="POST" onsubmit="return confirm('Ar tikrai norite ištrinti šią knygą?');" style="margin: 0;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" style="font-size: 0.8rem;">Ištrinti</button>
-                                            </form>
+
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm"
+                                                    style="font-size: 0.8rem;"
+                                                    onclick="openDeleteModal('{{ route('books.destroy', $book) }}')">
+                                                Ištrinti
+                                            </button>
                                         </div>
                                     </td>
                                 @endif
@@ -81,4 +109,39 @@
             <div style="margin-top: 2rem;">{{ $books->links() }}</div>
         @endif
     </div>
+
+    <div id="customDeleteModal" class="custom-modal-overlay">
+        <div class="custom-modal-box">
+            <h4>Patvirtinimas</h4>
+            <p style="margin-top: 15px;">Ar tikrai norite ištrinti šią knygą?</p>
+
+            <div class="custom-modal-buttons">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Ne</button>
+
+                <form id="deleteForm" action="" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Taip</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openDeleteModal(actionUrl) {
+            document.getElementById('deleteForm').action = actionUrl;
+            document.getElementById('customDeleteModal').style.display = 'flex';
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('customDeleteModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('customDeleteModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 @endsection

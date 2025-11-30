@@ -1,6 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Tamsus fonas */
+            display: none; /* Paslėptas pagal nutylėjimą */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .custom-modal-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 350px;
+            text-align: center;
+        }
+        .custom-modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+    </style>
+
     <div class="container">
         <center><h2>Rezervuotų knygų sąrašas</h2></center>
         @auth
@@ -15,13 +44,13 @@
                     <thead>
                     <tr>
                         @if(auth()->user()->hasRole('librarian'))
-                        <th>Vartotojas</th>
+                            <th>Vartotojas</th>
                         @endif
                         <th>Knygos pavadinimas</th>
                         <th>Rezervacijos data</th>
                         <th>Grąžinti iki</th>
                         @if(auth()->user()->hasRole('librarian'))
-                        <th>Veiksmai</th>
+                            <th>Veiksmai</th>
                         @endif
                     </tr>
                     </thead>
@@ -29,7 +58,7 @@
                     @forelse ($activeReservations as $reservation)
                         <tr>
                             @if(auth()->user()->hasRole('librarian'))
-                            <td>{{ $reservation->user->name }}</td>
+                                <td>{{ $reservation->user->name }}</td>
                             @endif
                             <td>{{ $reservation->book->title }}</td>
                             <td>{{ $reservation->reservation_date->format('Y-m-d H:i') }}</td>
@@ -38,11 +67,12 @@
                             @auth
                                 @if(auth()->user()->hasRole('librarian'))
                                     <td style="display: flex; gap: 0.5rem;">
-                                        <form action="{{ route('reservations.update', $reservation) }}" method="POST" onsubmit="return confirm('Ar tikrai norite grąžinti šią knygą?');">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-danger" style="padding: 0.5rem 1rem;">Grąžinti</button>
-                                        </form>
+                                        <button type="button"
+                                                class="btn btn-danger"
+                                                onclick="openReturnModal('{{ route('reservations.update', $reservation) }}')"
+                                                style="padding: 0.5rem 1rem;">
+                                            Grąžinti
+                                        </button>
                                     </td>
                                 @endif
                             @endauth
@@ -61,4 +91,39 @@
             </div>
         </div>
     </div>
+
+    <div id="customReturnModal" class="custom-modal-overlay">
+        <div class="custom-modal-box">
+            <h4>Patvirtinimas</h4>
+            <p style="margin-top: 15px;">Ar tikrai norite grąžinti šitą knygą?</p>
+
+            <div class="custom-modal-buttons">
+                <button type="button" class="btn btn-secondary" onclick="closeReturnModal()">Ne</button>
+
+                <form id="returnForm" action="" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-success">Taip</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openReturnModal(actionUrl) {
+            document.getElementById('returnForm').action = actionUrl;
+            document.getElementById('customReturnModal').style.display = 'flex';
+        }
+
+        function closeReturnModal() {
+            document.getElementById('customReturnModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('customReturnModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 @endsection
