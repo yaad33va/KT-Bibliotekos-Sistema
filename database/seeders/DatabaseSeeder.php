@@ -12,7 +12,9 @@ class DatabaseSeeder extends Seeder
     /**
 
     Seed the application's database.*/
-    public function run(): void{$this->call(RolePermissionSeeder::class);
+    public function run(): void{
+
+        $this->call(RolePermissionSeeder::class);
 
         $user = User::factory()->create([
             'name' => 'Test user',
@@ -51,6 +53,6 @@ class DatabaseSeeder extends Seeder
         $librarian->assignRole('librarian');
 
         Book::factory(30)->create();
-
+        $this->call(ReservationSeeder::class);
     }
 }

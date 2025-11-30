@@ -20,6 +20,7 @@ return new class extends Migration
             $table->longText('book_description');
             $table->integer('page_count');
             $table->integer('book_count');
+            $table->timestamps();
         });
     }
 
