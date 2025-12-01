@@ -38,6 +38,27 @@
             <a href="{{ route('admin.librarian.create') }}" class="btn btn-primary">Sukurti bibliotekininką</a>
         </div>
 
+        {{-- --------- SEARCH OPTION ------------------ --}}
+        {{--
+        <div style="margin: 1rem 0;">
+            <form action="{{ route('admin.dashboard') }}" method="GET" style="display: flex; gap: 10px; width: 100%;">
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Ieškoti pagal vardą, pavardę ar el. paštą..."
+                    value="{{ request('search') }}"
+                    style="flex: 1;"
+                >
+                <button type="submit" class="btn btn-secondary">Ieškoti</button>
+                @if(request('search'))
+                    <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary">Išvalyti</a>
+                @endif
+            </form>
+        </div>
+        --}}
+        {{-- --------- SEARCH OPTION ------------------ --}}
+
         @if($librarians->isEmpty())
             <p>Šiuo metu nėra sukurtų bibliotekininkų.</p>
         @else

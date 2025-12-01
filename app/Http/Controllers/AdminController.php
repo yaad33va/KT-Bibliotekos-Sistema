@@ -9,6 +9,7 @@ use Illuminate\Validation\Rules;
 
 class AdminController extends Controller
 {
+    // no search
     public function dashboard()
     {
         $librarians = User::whereHas('roles', function ($query) {
@@ -17,7 +18,29 @@ class AdminController extends Controller
 
         return view('admin.dashboard', compact('librarians'));
     }
+/*
+    // ---------- for search ----------
+    public function dashboard(Request $request)
+    {
+        $query = User::whereHas('roles', function ($query) {
+            $query->where('name', 'librarian');
+        });
 
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('surname', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        $librarians = $query->get();
+
+        return view('admin.dashboard', compact('librarians'));
+    }
+    // ---------- for search ----------
+*/
     public function createLibrarian()
     {
         return view('admin.create-librarian');

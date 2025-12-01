@@ -38,6 +38,28 @@
             @endif
         @endauth
 
+
+        {{-- --------- SEARCH OPTION ------------------ --}}
+        {{--
+         <div style="margin: 1rem 0;">
+             <form action="{{ route('reservations.index') }}" method="GET" style="display: flex; gap: 10px; width: 100%;">
+                 <input
+                     type="text"
+                     name="search"
+                     class="form-control"
+                     placeholder="Ieškoti pagal knygos pavadinimą{{ auth()->user()->hasRole('librarian') ? ' arba vartotoją' : '' }}..."
+                     value="{{ request('search') }}"
+                     style="flex: 1;"
+                 >
+                 <button type="submit" class="btn btn-secondary">Ieškoti</button>
+                 @if(request('search'))
+                     <a href="{{ route('reservations.index') }}" class="btn btn-outline-secondary">Išvalyti</a>
+                 @endif
+             </form>
+         </div>
+        --}}
+        {{-- --------- SEARCH OPTION ------------------ --}}
+
         <div class="card">
             <div class="card-body">
                 <table class="table table-striped">
@@ -92,10 +114,11 @@
         </div>
     </div>
 
+    {{-- MODALINIS LANGAS --}}
     <div id="customReturnModal" class="custom-modal-overlay">
         <div class="custom-modal-box">
             <h4>Patvirtinimas</h4>
-            <p style="margin-top: 15px;">Ar tikrai norite grąžinti šitą knygą?</p>
+            <p style="margin-top: 15px;">Ar tikrai norite pažymėti šią knygą kaip grąžintą?</p>
 
             <div class="custom-modal-buttons">
                 <button type="button" class="btn btn-secondary" onclick="closeReturnModal()">Ne</button>
@@ -103,7 +126,7 @@
                 <form id="returnForm" action="" method="POST">
                     @csrf
                     @method('PATCH')
-                    <button type="submit" class="btn btn-success">Taip</button>
+                    <button type="submit" class="btn btn-success">Taip, grąžinti</button>
                 </form>
             </div>
         </div>

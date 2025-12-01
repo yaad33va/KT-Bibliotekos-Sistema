@@ -3,19 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
-use App\Models\Book; // Add this
-use App\Models\User; // Add this
+use App\Models\Book;
+use App\Models\User;
 use App\Enums\BookStatus;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request; // Add this
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ReservationController extends Controller
 {
-    /**
-     * Display a listing of active reservations for the librarian.
-     */
+    /*
     public function index(): View
     {
         $activeReservations = Reservation::with(['user', 'book'])
@@ -30,10 +28,73 @@ class ReservationController extends Controller
 
         return view('librarian.reservations.index', compact('activeReservations'));
     }
+    */
 
-    /**
-     * Show the form for creating a new reservation.
-     */
+
+
+    // no search
+
+    public function index(): View
+    {
+        $query = Reservation::select('reservations.*')
+            ->join('users', 'reservations.user_id', '=', 'users.id')
+            ->with(['user', 'book'])
+            ->whereNull('returned_at');
+
+        if(auth()->user()->hasRole('user')){
+            // Vartotojas - rūšiuoja pagal datą
+            $query->where('reservations.user_id', auth()->user()->id)
+                ->orderBy('reservations.return_date', 'asc');
+        } else {
+            // Bibliotekininkas - rūšiuoja pagal vartotojo vardą
+            $query->orderBy('users.name', 'asc');
+        }
+
+        $activeReservations = $query->paginate(15);
+
+        return view('librarian.reservations.index', compact('activeReservations'));
+    }
+
+
+    //-------- for search -------------
+/*
+    public function index(Request $request): View
+    {
+        $query = Reservation::with(['user', 'book'])
+            ->whereNull('returned_at');
+
+        if(auth()->user()->hasRole('user')){
+            $query->where('user_id', auth()->user()->id);
+        }
+
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where(function($q) use ($search) {
+                // Ieškoti pagal knygos pavadinimą
+                $q->whereHas('book', function($b) use ($search) {
+                    $b->where('title', 'like', "%{$search}%");
+                });
+
+                // Jei bibliotekininkas, leisti ieškoti ir pagal vartotojo vardą
+                if(auth()->user()->hasRole('librarian')) {
+                    $q->orWhereHas('user', function($u) use ($search) {
+                        $u->where('name', 'like', "%{$search}%");
+                    });
+                }
+            });
+        }
+
+        $activeReservations = $query
+            ->latest('reservation_date')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('librarian.reservations.index', compact('activeReservations'));
+    }
+    //-------- for search -------------
+*/
+
+
     public function create(): View
     {
         $books = Book::where('book_count', '>', 0)->orderBy('title')->get();
@@ -42,9 +103,7 @@ class ReservationController extends Controller
         return view('librarian.reservations.create', compact('books', 'users'));
     }
 
-    /**
-     * Store a newly created reservation in storage.
-     */
+
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -90,7 +149,7 @@ class ReservationController extends Controller
             'user_id' => $request->user()->id,
             'reservation_date' => now(),
             'return_date' => $request->return_date,
-            'book_status' => BookStatus::Taken, // Assuming 'Paimta' is in your enum
+            'book_status' => BookStatus::Taken,
         ]);
 
         // Decrement the book quantity

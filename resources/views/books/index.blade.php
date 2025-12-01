@@ -44,7 +44,24 @@
                 @endauth
             </div>
         </div>
-
+        {{-- --------- SEARCH OPTION ------------------ --}}
+        {{-- <div style="margin: 1rem 0;">
+            <form action="{{ route('books.index') }}" method="GET" style="display: flex; gap: 10px;">
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Ieškoti pagal pavadinimą, autorių ar žanrą..."
+                    value="{{ request('search') }}"
+                    style="flex: 1;"
+                >
+                <button type="submit" class="btn btn-secondary">Ieškoti</button>
+                @if(request('search'))
+                    <a href="{{ route('books.index') }}" class="btn btn-outline-secondary">Išvalyti</a>
+                @endif
+            </form>
+        </div> --}}
+        {{-- --------- SEARCH OPTION ------------------ --}}
         @if($books->isEmpty())
             <p class="text-center text-muted my-5">Knygų katalogas tuščias.</p>
         @else

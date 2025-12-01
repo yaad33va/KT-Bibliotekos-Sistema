@@ -9,9 +9,27 @@ use Illuminate\Http\RedirectResponse;
 
 class BookController extends Controller
 {
+    //To remove search option, delete Request $request
     public function index(): View
     {
+        //-----------------SEARCH OPTION-----------------
+        /*
+        $query = Book::latest();
+
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('author', 'like', "%{$search}%")
+                    ->orWhere('genre', 'like', "%{$search}%");
+            });
+        }
+
+        $books = $query->paginate(10)->withQueryString();   // for search
+        //-----------------SEARCH OPTION-----------------
+        */
         $books = Book::latest()->paginate(10);
+        // $books = Book::orderBy('author', 'asc')->paginate(10);
         return view('books.index', compact('books'));
     }
 
